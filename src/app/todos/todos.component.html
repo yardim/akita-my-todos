@@ -1,21 +1,9 @@
 <div class="row justify-content-center">
   <div class="col-10 col-sm-8">
     <ul class="list-group">
-      <li class="list-group-item">
-        <input type="checkbox" id="todo-item-1">
-        <label for="todo-item-1">Todo item 1</label>
-      </li>
-      <li class="list-group-item">
-        <input type="checkbox" id="todo-item-2">
-        <label for="todo-item-2">Todo item 2</label>
-      </li>
-      <li class="list-group-item">
-        <input type="checkbox" id="todo-item-3">
-        <label for="todo-item-3">Todo item 3</label>
-      </li>
-      <li class="list-group-item">
-        <input type="checkbox" id="todo-item-4">
-        <label for="todo-item-4">Todo item 4</label>
+      <li class="list-group-item" *ngFor="let todo of todos | async">
+        <input type="checkbox" [id]="todo.id" [checked]="todo.completed">
+        <label [for]="todo.id">{{ todo.title }}</label>
       </li>
     </ul>
     <app-nav></app-nav>

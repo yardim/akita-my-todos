@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Route, ActivatedRoute, Params } from '@angular/router';
+import { TodosService } from '../todos/store/todos.service';
 
 @Component({
   selector: 'app-nav',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private route: ActivatedRoute,
+    private todosService: TodosService
+  ) { }
 
   ngOnInit() {
+    this.route.params
+      .subscribe((data: Params) => {
+        this.todosService.updateFilter(data.filter);
+      });
   }
-
 }

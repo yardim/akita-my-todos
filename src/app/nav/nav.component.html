@@ -1,11 +1,11 @@
 <ul class="nav nav-pills justify-content-center">
   <li class="nav-item">
-    <a href="#" class="nav-link active">All</a>
+    <a [routerLink]="['/todos', 'all']" routerLinkActive="active" class="nav-link">All</a>
   </li>
   <li class="nav-item">
-    <a href="#" class="nav-link">Uncompleted</a>
+    <a [routerLink]="['/todos', 'uncompleted']" routerLinkActive="active" class="nav-link">Uncompleted</a>
   </li>
   <li class="nav-item">
-    <a href="#" class="nav-link">Completed</a>
+    <a [routerLink]="['/todos', 'completed']" routerLinkActive="active" class="nav-link">Completed</a>
   </li>
 </ul>

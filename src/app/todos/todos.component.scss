@@ -6,4 +6,10 @@ label {
 input[type="checkbox"] {
   margin-right: 5px;
   vertical-align: middle;
+
+  &:checked {
+    + label {
+      text-decoration: line-through;
+    }
+  }
 }

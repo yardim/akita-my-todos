@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { TodosQuery } from './store/todos.query';
+import { Observable, of } from 'rxjs';
+import { Todo, Filter } from './store/todos.model';
+import { mergeMap, switchMap, map, concatMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-todos',
@@ -6,10 +10,25 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./todos.component.scss']
 })
 export class TodosComponent implements OnInit {
+  todos: Observable<Todo[]>;
 
-  constructor() { }
+  constructor(private todosQuery: TodosQuery) { }
 
   ngOnInit() {
-  }
+    this.todos = this.todosQuery.select('filter')
+      .pipe(
+        map((filter: Filter) => {
+          if (filter === Filter.COMPLETED) {
+            return (todo: Todo) => todo.completed;
+          }
 
+          if (filter === Filter.UNCOMPLETED) {
+            return (todo: Todo) => !todo.completed;
+          }
+        }),
+        switchMap((filterBy) => {
+          return this.todosQuery.selectAll({ filterBy });
+        })
+      );
+  }
 }
