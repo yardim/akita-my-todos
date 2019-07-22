@@ -15,6 +15,7 @@ export class TodosComponent implements OnInit {
   constructor(private todosQuery: TodosQuery) { }
 
   ngOnInit() {
+    // TODO: fix expression has changed error
     this.todos = this.todosQuery.select('filter')
       .pipe(
         map((filter: Filter) => {
@@ -28,7 +29,8 @@ export class TodosComponent implements OnInit {
         }),
         switchMap((filterBy) => {
           return this.todosQuery.selectAll({ filterBy });
-        })
+        }),
+        map((todos: Todo[]) => todos.reverse())
       );
   }
 }

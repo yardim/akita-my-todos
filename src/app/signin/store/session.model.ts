@@ -5,7 +5,7 @@ export interface SessionState {
 
 export function createInitialSessionState(): SessionState {
   return {
-    username: '',
-    password: '',
+    username: 'test',
+    password: 'test',
   };
 }

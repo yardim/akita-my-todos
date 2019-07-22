@@ -19,7 +19,7 @@ export interface TodosState extends EntityState<Todo> {
 }
 
 export function createInitialTodosState(): TodosState {
-  const ids = [ uuid(), uuid(), uuid(), uuid(), uuid(), uuid()];
+  const ids = [ uuid(), uuid(), uuid(), uuid(), uuid(), uuid() ];
 
   return {
     entities: {

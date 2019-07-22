@@ -1,0 +1,8 @@
+<div class="row justify-content-center">
+  <div class="col-6">
+    <form (ngSubmit)="onSubmit()" [formGroup]="todoForm">
+      <input type="text" class="form-control" formControlName="todo">
+      <button class="btn btn-success">Add</button>
+    </form>
+  </div>
+</div>
