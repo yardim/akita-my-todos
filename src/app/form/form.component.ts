@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TodosService } from '../todos/store/todos.service';
+import { TodosQuery } from '../todos/store/todos.query';
+import { switchMap, startWith } from 'rxjs/operators';
+import { Todo } from '../todos/store/todos.model';
 
 @Component({
   selector: 'app-form',
@@ -9,22 +12,46 @@ import { TodosService } from '../todos/store/todos.service';
 })
 export class FormComponent implements OnInit {
   todoForm: FormGroup;
+  isEditMode = false;
+  todoId: string;
 
-  constructor(private todosService: TodosService) { }
+  constructor(
+    private todosService: TodosService,
+    private todosQuery: TodosQuery
+  ) { }
 
   ngOnInit() {
-    this.todoForm = new FormGroup({
-      todo: new FormControl('', Validators.required)
-    });
+    this.todosService.todoId$
+      .pipe(
+        switchMap((todoId: string) => this.todosQuery.selectTodo(todoId)),
+        startWith({ title: '' })
+      )
+      .subscribe((todo: Todo) => {
+        this.isEditMode = Boolean(todo.title);
+        this.todoId = todo.id;
+
+        this.todoForm = new FormGroup({
+          todo: new FormControl(todo.title, Validators.required)
+        });
+      });
   }
 
   onSubmit() {
-    if (this.todoForm.valid) {
-      this.todosService.addTodo(this.todoForm.value.todo);
-      this.todoForm.reset();
+    if (this.todoForm.invalid) {
+      this.todoForm.get('todo').markAsDirty();
       return;
     }
 
-    this.todoForm.get('todo').markAsDirty();
+    if (this.todoForm.valid && !this.isEditMode) {
+      this.todosService.addTodo(this.todoForm.value.todo);
+    }
+
+    if (this.todoForm.valid && this.isEditMode) {
+      this.todosService.editTodo(this.todoId, { title: this.todoForm.value.todo });
+    }
+
+    this.isEditMode = false;
+    this.todoId = null;
+    this.todoForm.reset();
   }
 }

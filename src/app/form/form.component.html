@@ -2,7 +2,14 @@
   <div class="col-6">
     <form (ngSubmit)="onSubmit()" [formGroup]="todoForm">
       <input type="text" class="form-control" formControlName="todo">
-      <button class="btn btn-success">Add</button>
+      <ng-container *ngIf="!isEditMode">
+        <button class="btn btn-success" type="submit">Add</button>
+        <button class="btn btn-primary" type="button">Clear</button>
+      </ng-container>
+      <ng-container *ngIf="isEditMode">
+        <button class="btn btn-success" type="submit">Edit</button>
+        <button class="btn btn-primary" type="button">Cancel</button>
+      </ng-container>
     </form>
   </div>
 </div>

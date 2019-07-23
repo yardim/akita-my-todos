@@ -3,6 +3,7 @@ import { TodosQuery } from './store/todos.query';
 import { Observable, of } from 'rxjs';
 import { Todo, Filter } from './store/todos.model';
 import { mergeMap, switchMap, map, concatMap } from 'rxjs/operators';
+import { TodosService } from './store/todos.service';
 
 @Component({
   selector: 'app-todos',
@@ -12,7 +13,10 @@ import { mergeMap, switchMap, map, concatMap } from 'rxjs/operators';
 export class TodosComponent implements OnInit {
   todos: Observable<Todo[]>;
 
-  constructor(private todosQuery: TodosQuery) { }
+  constructor(
+    private todosQuery: TodosQuery,
+    private todosService: TodosService,
+  ) { }
 
   ngOnInit() {
     // TODO: fix expression has changed error
@@ -32,5 +36,9 @@ export class TodosComponent implements OnInit {
         }),
         map((todos: Todo[]) => todos.reverse())
       );
+  }
+
+  onSelectTodo(id: string): void {
+    this.todosService.selectTodo(id);
   }
 }

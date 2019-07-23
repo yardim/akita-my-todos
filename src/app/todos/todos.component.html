@@ -3,8 +3,14 @@
   <div class="col-10 col-sm-8">
     <ul class="list-group">
       <li class="list-group-item" *ngFor="let todo of todos | async">
-        <input type="checkbox" [id]="todo.id" [checked]="todo.completed">
-        <label [for]="todo.id">{{ todo.title }}</label>
+        <label>
+          <input type="checkbox" [id]="todo.id" [checked]="todo.completed">
+          <span class="title">{{ todo.title }}</span>
+        </label>
+        <span class="actions">
+          <button class="btn btn-primary" (click)="onSelectTodo(todo.id)">Edit</button>
+          <button class="btn btn-danger">Delete</button>
+        </span>
       </li>
     </ul>
     <app-nav></app-nav>

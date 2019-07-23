@@ -1,3 +1,9 @@
+li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 label {
   cursor: pointer;
   user-select: none;
@@ -8,8 +14,12 @@ input[type="checkbox"] {
   vertical-align: middle;
 
   &:checked {
-    + label {
+    + .title {
       text-decoration: line-through;
     }
   }
+}
+
+.btn {
+  margin-left: 5px;
 }
